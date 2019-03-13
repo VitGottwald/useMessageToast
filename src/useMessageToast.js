@@ -17,7 +17,7 @@ const useMessageToast = initialMessages => {
     },
     [messages]
   );
-  return [messages, message => setMessages([message, ...messages])];
+  return [messages, message => setMessages([...messages, message])];
 };
 
 export default useMessageToast;
