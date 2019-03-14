@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
-const expired = now => message => now > message.expires;
 const not = fn => x => !fn(x);
+const expired = now => message => now > message.expires;
 const nextExpire = messages =>
   messages.map(message => message.expires).sort((a, b) => a - b)[0];
 
