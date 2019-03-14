@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
-const shouldDelete = now => message => now > message.expires;
-const shouldStay = now => message => !shouldDelete(now)(message);
+const expired = now => message => now > message.expires;
+const not = fn => x => !fn(x);
 const nextExpire = messages =>
   messages.map(message => message.expires).sort((a, b) => a - b)[0];
 
@@ -11,7 +11,7 @@ const useMessageToast = (initialMessages, now = Date.now) => {
     () => {
       if (messages.length === 0) return;
       const timeoutId = setTimeout(() => {
-        setMessages(messages.filter(shouldStay(now())));
+        setMessages(messages.filter(not(expired(now()))));
       }, nextExpire(messages) - now());
       return () => clearTimeout(timeoutId);
     },
