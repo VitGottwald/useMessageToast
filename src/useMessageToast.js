@@ -17,7 +17,11 @@ const useMessageToast = (initialMessages, now = Date.now) => {
     },
     [messages]
   );
-  return [messages, message => setMessages([...messages, message])];
+  const addMessage = message => {
+    console.log(message);
+    setMessages([...messages, message]);
+  };
+  return [messages, addMessage];
 };
 
 export default useMessageToast;

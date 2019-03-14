@@ -17,15 +17,21 @@ afterEach(() => {
 });
 
 function MessageList({ initialMessages = [] }) {
-  const [messages, addMessage] = useMessageToast([], () => 0);
+  const [messages, addMessage] = useMessageToast([]);
+  // const addMessage = () => {};
+  // const messages = [];
   return (
     <div>
-      <button onClick={addMessage({ expire: 0, text: "TEXT" })}>
+      <button
+        onClick={() =>
+          addMessage({ expire: 0, text: `Message ${messages.length + 1}` })
+        }
+      >
         Add Message
       </button>
       <ul>
         {messages.map((msg, i) => (
-          <li key={i}>{msg}</li>
+          <li key={i}>{msg.text}</li>
         ))}
       </ul>
     </div>
@@ -36,7 +42,13 @@ it("Adds a message", () => {
   act(() => {
     ReactDOM.render(<MessageList />, container);
   });
-  const button = container.querySelector("button");
+  const l0 = container.querySelector("li");
+  expect(l0).toBe(null);
 
-  expect(1).toEqual(button);
+  const button = container.querySelector("button");
+  act(() => {
+    button.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+  });
+  const l1 = container.querySelector("li");
+  expect(l1.textContent).toBe("Message 1");
 });
